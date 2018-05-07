@@ -1,6 +1,6 @@
 # SIC
 
-Playground for SIC TV app
+Playground for SIC TV app. Getting to know Dart programming language and Flutter Framework :metal:
 
 ## Getting Started
 
