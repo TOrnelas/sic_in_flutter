@@ -1,4 +1,4 @@
-# sic
+# SIC
 
 Playground for SIC TV app
 
