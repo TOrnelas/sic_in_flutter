@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/home.dart';
+import 'pages/epg.dart';
+import 'models/menu_item.dart';
 
 class App extends StatefulWidget {
 
@@ -7,22 +9,21 @@ class App extends StatefulWidget {
 
   final String title;
 
+  final items = <MenuItem>[
+    new MenuItem("Home", Home(), new Icon(Icons.home)),
+    new MenuItem("EPG", Epg(), new Icon(Icons.grid_on))
+  ];
+
   @override
   _AppState createState() => new _AppState();
 }
 
 class _AppState extends State<App> {
 
-  var selectedSideMenuPos = 0;
-
+  var selectedMenuPosition = 0;
+  
   @override
   Widget build(BuildContext context) {
-
-    var items = <Widget>[
-      new DrawerHeader(child: new Center(child: new Image.network("http://i.imgur.com/ioMrqvL.png", height: 100.0))),
-      new ListTile(title: new Text("Home"), onTap: () => _select(0)),
-      new ListTile(title: new Text("EPG"), onTap: () => _select(1)),
-    ];
 
     return new Scaffold(
       appBar: new AppBar(
@@ -31,15 +32,15 @@ class _AppState extends State<App> {
       body: new Center(child: _getPageForSelectedIndex()),
       drawer: new Drawer(
         child: ListView(
-          children: items,
+          children: _generateDrawerWidgets(),
         ),
       ),
     );
   }
 
-  _select(int index){
+  _select(int menuItemPosition){
 
-    selectedSideMenuPos = index;
+    selectedMenuPosition = menuItemPosition;
     setState(() => {});
     if(Navigator.of(context).canPop())
       Navigator.of(context).pop();
@@ -47,11 +48,29 @@ class _AppState extends State<App> {
 
   _getPageForSelectedIndex(){
 
-    switch (selectedSideMenuPos){
-      case 0:
-        return new Home();
-      default:
-        return new Text(selectedSideMenuPos.toString());
+    if(widget.items[selectedMenuPosition].widget != null)
+      return widget.items[selectedMenuPosition].widget;
+  }
+
+  _generateDrawerWidgets(){
+
+    var drawerItems = <Widget>[];
+
+    //add header
+    drawerItems.add(new DrawerHeader(child: new Center(child: new Image.network("http://i.imgur.com/ioMrqvL.png", height: 100.0))));
+
+    //add menus
+    for (var i = 0; i < widget.items.length; i++){
+
+      final menuItem = widget.items[i];
+      drawerItems.add(
+          new ListTile(
+            leading: new Center(child: menuItem.icon),
+            title: new Text(menuItem.title),
+            onTap: () => _select(i), selected: i == selectedMenuPosition)
+      );
     }
+
+    return drawerItems;
   }
 }
