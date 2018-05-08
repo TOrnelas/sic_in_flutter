@@ -17,6 +17,13 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+
+    var items = <Widget>[
+      new DrawerHeader(child: new Center(child: new Image.network("http://i.imgur.com/ioMrqvL.png", height: 100.0))),
+      new ListTile(title: new Text("Home"), onTap: () => _select(0)),
+      new ListTile(title: new Text("EPG"), onTap: () => _select(1)),
+    ];
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
@@ -24,10 +31,7 @@ class _AppState extends State<App> {
       body: new Center(child: _getPageForSelectedIndex()),
       drawer: new Drawer(
         child: ListView(
-          children: <Widget>[
-            new ListTile(title: new Text("Home"), onTap: () => _select(0)),
-            new ListTile(title: new Text("EPG"), onTap: () => _select(1)),
-          ],
+          children: items,
         ),
       ),
     );
