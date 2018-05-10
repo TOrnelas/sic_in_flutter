@@ -33,19 +33,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    if (AppUtils.isLandscape(context)){
-        return new Text("home landscape");
-    }else{
+    return new ListView(children: <Widget>[
 
-      return new Column(children: <Widget>[
-
-        new Row(children: <Widget>[
-          new IconButton(icon: new Icon(Icons.play_arrow), onPressed: () => _controller.play()),
-          new IconButton(icon: new Icon(Icons.pause), onPressed: () => _controller.pause()),
-        ]),
-        new AspectRatio(aspectRatio: 1280 / 720,
-        child: new VideoPlayer(_controller))
-      ]);
-    }
+      new AspectRatio(aspectRatio: 1280 / 720,
+          child: new VideoPlayer(_controller)),
+      new Row(children: <Widget>[
+        new IconButton(icon: new Icon(Icons.play_arrow), onPressed: () => _controller.play()),
+        new IconButton(icon: new Icon(Icons.pause), onPressed: () => _controller.pause()),
+      ])
+    ]);
   }
 }
