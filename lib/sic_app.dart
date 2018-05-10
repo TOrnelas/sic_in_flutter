@@ -21,6 +21,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
 
   var selectedMenuPosition = 0;
+
   
   @override
   Widget build(BuildContext context) {
@@ -31,9 +32,10 @@ class _AppState extends State<App> {
       ),
       body: new Center(child: _getPageForSelectedIndex()),
       drawer: new Drawer(
-        child: ListView(
-          children: _generateDrawerWidgets(),
-        ),
+        child: ListView.builder(itemCount : widget.items.length + 1,
+            itemBuilder: (BuildContext context, int position) {
+              return _getItem(position);
+        }),
       ),
     );
   }
@@ -52,25 +54,16 @@ class _AppState extends State<App> {
       return widget.items[selectedMenuPosition].widget;
   }
 
-  _generateDrawerWidgets(){
+  _getItem(int position){
 
-    var drawerItems = <Widget>[];
-
-    //add header
-    drawerItems.add(new DrawerHeader(child: new Center(child: new Image.network("http://i.imgur.com/ioMrqvL.png", height: 100.0))));
-
-    //add menus
-    for (var i = 0; i < widget.items.length; i++){
-
-      final menuItem = widget.items[i];
-      drawerItems.add(
-          new ListTile(
-            leading: new Center(child: menuItem.icon),
-            title: new Text(menuItem.title),
-            onTap: () => _select(i), selected: i == selectedMenuPosition)
-      );
+    if(position == 0){ //header
+      return new DrawerHeader(child: new Center(child: new Image.network("http://i.imgur.com/ioMrqvL.png", height: 100.0)));
+    }else{ //menu item
+      final menuItem = widget.items[position - 1];
+      return new ListTile(
+          leading: new Center(child: menuItem.icon),
+          title: new Text(menuItem.title),
+          onTap: () => _select(position - 1), selected: position - 1 == selectedMenuPosition);
     }
-
-    return drawerItems;
   }
 }
