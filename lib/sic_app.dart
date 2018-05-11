@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/home.dart';
+import 'package:sic/pages/home/home.dart';
 import 'pages/epg.dart';
 import 'models/menu_item.dart';
 
