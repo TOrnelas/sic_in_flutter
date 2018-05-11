@@ -9,4 +9,12 @@ class AppUtils{
   static isPortrait(BuildContext context){
     return !isLandscape(context);
   }
+
+  static getScreenWidth(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
+
+  static getScreenHeight(BuildContext context) {
+    return MediaQuery.of(context).size.height;
+  }
 }

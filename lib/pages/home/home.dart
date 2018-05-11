@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../utils/app_utils.dart';
 import 'home_header.dart';
+import 'home_footer.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,13 +10,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  var header;
-
   @override
   void initState() {
 
     super.initState();
-    if (header == null) header = new HomeHeader();
   }
 
   @override
@@ -26,13 +24,8 @@ class _HomeState extends State<Home> {
     return new ListView(
         scrollDirection: isPortrait ? Axis.vertical : Axis.horizontal,
         children: <Widget>[
-          header
+          new HomeHeader(),
+          new HomeFooter()
     ]);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    header.disposePlayer();
   }
 }
