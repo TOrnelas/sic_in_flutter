@@ -17,7 +17,7 @@ class JsonParser{
             programmeAsJson["duration"],
             programmeAsJson["name"],
             programmeAsJson["description"],
-            programmeAsJson["logoUrl"],
+            "http:" + programmeAsJson["logoUrl"],
             programmeAsJson["url"])
       );
     }

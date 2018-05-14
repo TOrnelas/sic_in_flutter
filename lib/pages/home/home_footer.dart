@@ -10,7 +10,7 @@ class HomeFooter extends StatefulWidget {
 
 class _HomeFooterState extends State<HomeFooter> implements Callback{
 
-  static const NUM_COLUMNS = 2.5;
+  static const NUM_COLUMNS = 1.5;
 
   var programs =  <Program>[];
 
@@ -21,6 +21,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   void initState() {
 
     super.initState();
+
     Repository.fetchEpgByChannelId("gen", this);
   }
 
@@ -28,9 +29,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   void onSuccess(List<Program> programmes) {
     print(programmes);
     this.programs = programmes;
-    setState(() {
-
-    });
+    setState(() {}); //update UI
   }
 
   @override
@@ -40,14 +39,14 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
     screenWidth = AppUtils.getScreenWidth(context);
 
     return SizedBox(
-        height: 120.0,
-        width: 120.0,
-        child: new ListView.builder(
-          itemCount: programs.length,
-          itemBuilder: (BuildContext context, int index){
-            return _getItem(index);
-          },
-          scrollDirection: isPortrait ? Axis.horizontal : Axis.vertical
+      height: 220.0,
+      width: 120.0,
+      child: new ListView.builder(
+        itemCount: programs.length,
+        itemBuilder: (BuildContext context, int index){
+          return _getItem(index);
+        },
+        scrollDirection: isPortrait ? Axis.horizontal : Axis.vertical
       )
     );
   }
@@ -55,9 +54,19 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   _getItem(int position){
 
     if(isPortrait){
-      return new SizedBox(width: screenWidth / NUM_COLUMNS, child: new Text(programs[position].title));
+      return new SizedBox(
+          width: screenWidth / NUM_COLUMNS,
+          child: new Column(
+              children: <Widget>[
+                new Center(child: new Text(programs[position].getStartEndWithFormat())),
+                new Center(child: new AspectRatio(aspectRatio: 1280 / 720, child: new Image.network(programs[position].imageUrl)))
+            ]
+          )
+      );
     }else{
-      return new SizedBox(height: screenWidth / NUM_COLUMNS, child: new Text(programs[position].title));
+      return new SizedBox(
+          height: screenWidth / NUM_COLUMNS,
+          child: new Text(programs[position].title));
     }
   }
 }
