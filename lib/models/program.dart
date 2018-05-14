@@ -1,12 +1,12 @@
 class Program{
 
-  num id;
-  num startTime;
-  num endTime;
+  DateTime startTime;
+  num duration;
 
   String title;
   String description;
   String imageUrl;
+  String externalUrl;
 
-  Program(this.id, this.startTime, this.endTime, this.title, this.description, this.imageUrl);
+  Program(this.startTime, this.duration, this.title, this.description, this.imageUrl, this.externalUrl);
 }

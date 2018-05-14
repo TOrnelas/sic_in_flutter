@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../models/program.dart';
 import '../../utils/app_utils.dart';
+import '../../internet/repository.dart';
 
 class HomeFooter extends StatefulWidget {
   @override
   _HomeFooterState createState() => new _HomeFooterState();
 }
 
-class _HomeFooterState extends State<HomeFooter> {
+class _HomeFooterState extends State<HomeFooter> implements Callback{
 
   static const NUM_COLUMNS = 2.5;
 
-  var programs = [
-    new Program(1, 0, 0, "Program 1", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 2", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 3", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 4", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 5", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 6", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 7", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 8", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 9", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 10", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320"),
-    new Program(1, 0, 0, "Program 11", "Lorem ipsum description", "http://images-cdn.impresa.pt/sic/2017-04-18-logo_teste3.png/16x9/mw-320")
-  ];
+  var programs =  <Program>[];
 
   var screenWidth;
   var isPortrait;
@@ -32,12 +21,22 @@ class _HomeFooterState extends State<HomeFooter> {
   void initState() {
 
     super.initState();
+    Repository.fetchEpgByChannelId("gen", this);
+  }
+
+  @override
+  void onSuccess(List<Program> programmes) {
+    print(programmes);
+    this.programs = programmes;
+    setState(() {
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
 
-   isPortrait = AppUtils.isPortrait(context);
+    isPortrait = AppUtils.isPortrait(context);
     screenWidth = AppUtils.getScreenWidth(context);
 
     return SizedBox(
