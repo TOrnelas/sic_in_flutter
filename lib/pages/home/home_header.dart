@@ -12,6 +12,7 @@ class _HomeHeaderState extends State<HomeHeader> {
 
   VideoPlayerController _controller;
   bool isPlaying = false;
+  bool areControllersVisible = true;
 
   @override
   void initState() {
@@ -33,9 +34,33 @@ class _HomeHeaderState extends State<HomeHeader> {
   @override
   Widget build(BuildContext context) {
 
-    return new AspectRatio(
-        aspectRatio: 1280 / 720,
-        child:  new VideoPlayer(_controller)
+    return new GestureDetector(
+      onTap: () {
+        areControllersVisible = !areControllersVisible;
+        setState(() {});
+      },
+      child: new Stack(
+          alignment: AlignmentDirectional.bottomEnd,
+          children: <Widget>[
+          new AspectRatio(
+            aspectRatio: 1280 / 720,
+            child:  new VideoPlayer(_controller)
+          ),
+          new Opacity(
+            opacity: areControllersVisible ? 1.0 : 0.0,
+            child: new Container(
+              decoration: new BoxDecoration(boxShadow: [new BoxShadow(color: Colors.black38)], borderRadius: new BorderRadius.only(bottomLeft: new Radius.circular(5.0), topLeft: new Radius.circular(5.0))),
+              child: new Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                 new IconButton(icon: new Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow, color: Colors.white), onPressed: () => _playPause()),
+                 new IconButton(icon: new Icon(Icons.fullscreen, color: Colors.white), onPressed: () => _goFullScreen())
+                ]
+              ),
+            ),
+          )
+        ]
+      ),
     );
   }
 
@@ -43,5 +68,18 @@ class _HomeHeaderState extends State<HomeHeader> {
   void dispose() {
     super.dispose();
     _controller.dispose();
+  }
+
+  _goFullScreen() {
+    Scaffold.of(context).showSnackBar(new SnackBar(content: new Text("Soon!")));
+  }
+
+  _playPause() {
+
+    if(_controller.value.isPlaying){
+      _controller.pause();
+    }else{
+      _controller.play();
+    }
   }
 }
