@@ -13,8 +13,23 @@ class Program{
   String getStartEndWithFormat() {
 
     var endTime = startTime.add(new Duration(milliseconds: duration));
+    return  _doubleDigit(startTime.hour)
+        + ":"
+        +  _doubleDigit(startTime.minute)
+        + "h - "
+        +  _doubleDigit(endTime.hour)
+        + ":"
+        +  _doubleDigit(endTime.minute) + "h";
+  }
 
-    return startTime.hour.toString() + ":" + startTime.minute.toString() + "h - "
-        + endTime.hour.toString() + ":" + endTime.minute.toString() + "h";
+  _doubleDigit(int time) {
+
+    return time < 10 ? "0" + time.toString() : time.toString();
+  }
+
+  isPlayingNow() {
+
+    var endTime = startTime.add(new Duration(milliseconds: duration));
+    return startTime.isBefore(new DateTime.now()) && endTime.isAfter(new DateTime.now());
   }
 }

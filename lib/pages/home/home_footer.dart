@@ -11,6 +11,7 @@ class HomeFooter extends StatefulWidget {
 class _HomeFooterState extends State<HomeFooter> implements Callback{
 
   static const NUM_COLUMNS = 1.5;
+  static const EPG_COLUMNS_HEIGHT = 200.0;
 
   var programs =  <Program>[];
 
@@ -38,30 +39,43 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
     isPortrait = AppUtils.isPortrait(context);
     screenWidth = AppUtils.getScreenWidth(context);
 
-    return SizedBox(
-      height: 220.0,
-      width: 120.0,
-      child: new ListView.builder(
-        itemCount: programs.length,
-        itemBuilder: (BuildContext context, int index){
-          return _getItem(index);
-        },
-        scrollDirection: isPortrait ? Axis.horizontal : Axis.vertical
-      )
+    return new Column(
+      children: <Widget>[
+        new Container(child: new Text("Playing now:"), padding: new EdgeInsets.only(left: 10.0, top: 5.0), width: screenWidth),
+        new SizedBox(
+          height: EPG_COLUMNS_HEIGHT,
+          width: screenWidth,
+          child: new ListView.builder(
+            itemCount: programs.length,
+            itemBuilder: (BuildContext context, int index){
+              return _getItem(index);
+            },
+            scrollDirection: isPortrait ? Axis.horizontal : Axis.vertical
+          )
+        )
+      ]
     );
   }
 
   _getItem(int position){
 
     if(isPortrait){
-      return new SizedBox(
-          width: screenWidth / NUM_COLUMNS,
+      return new Container(
+        margin: new EdgeInsets.all(5.0),
+        width: screenWidth / NUM_COLUMNS,
+        child: new Card(
           child: new Column(
-              children: <Widget>[
-                new Center(child: new Text(programs[position].getStartEndWithFormat())),
-                new Center(child: new AspectRatio(aspectRatio: 1280 / 720, child: new Image.network(programs[position].imageUrl)))
+            children: <Widget>[
+              new Stack(
+                children: <Widget>[
+                  new Center(child: new AspectRatio(aspectRatio: 1280 / 720, child: new Image.network(programs[position].imageUrl, fit: BoxFit.fill))),
+                  new Opacity(opacity: programs[position].isPlayingNow() ? 1.0 :  0.0, child: new Container(child: new Text("NOW", style: new TextStyle(color: Colors.white)), color: Colors.redAccent, padding: new EdgeInsets.all(4.0)))
+                ]
+              ),
+              new Center(child: new Text(programs[position].description, maxLines: 5))
             ]
           )
+        )
       );
     }else{
       return new SizedBox(
