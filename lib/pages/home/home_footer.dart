@@ -11,8 +11,8 @@ class HomeFooter extends StatefulWidget {
 
 class _HomeFooterState extends State<HomeFooter> implements Callback{
 
-  static const NUM_COLUMNS = 1.5;
-  static const EPG_COLUMNS_HEIGHT = 225.0;
+  var NUM_COLUMNS = 1.5;
+  var EPG_COLUMNS_HEIGHT = 225.0;
 
   var programs =  <Program>[];
 
@@ -45,6 +45,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
 
   @override
   void onSuccess(List<Program> programmes) {
+
     print(programmes);
     this.programs = programmes;
     setState(() {
@@ -58,6 +59,14 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
     isPortrait = AppUtils.isPortrait(context);
     screenWidth = AppUtils.getScreenWidth(context);
 
+    if(!isPortrait){
+      NUM_COLUMNS = 3.5;
+      EPG_COLUMNS_HEIGHT = 185.0;
+    }else{
+      NUM_COLUMNS = 1.5;
+      EPG_COLUMNS_HEIGHT = 225.0;
+    }
+
     return new Column(
       children: <Widget>[
         new Container(child: new Text("Schedule:"), padding: new EdgeInsets.only(left: 10.0, top: 5.0), width: screenWidth),
@@ -70,7 +79,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
             itemBuilder: (BuildContext context, int index){
               return _getItem(index);
             },
-            scrollDirection: isPortrait ? Axis.horizontal : Axis.vertical
+            scrollDirection: /*isPortrait ? */Axis.horizontal /*: *//*Axis.vertical*/
           )
         )
       ]
@@ -79,48 +88,41 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
 
   _getItem(int position){
 
-    if(isPortrait){
-
-      return new GestureDetector(
+    return new GestureDetector(
         onTap: () => _launchWebView(programs[position].externalUrl),
         child: new Container(
-          margin: new EdgeInsets.all(5.0),
-          width: screenWidth / NUM_COLUMNS,
-          child: new Card(
-            elevation: 2.0,
-            child: new Column(
-              children: <Widget>[
-                new Stack(
-                  children: <Widget>[
-                    new Center(child: new AspectRatio(aspectRatio: 1280 / 720, child: new Image.network(programs[position].imageUrl, fit: BoxFit.fill))),
-                    new Opacity(opacity: programs[position].isFromThePast() ? 0.0 : 1.0 , child: new Container(padding: new EdgeInsets.all(4.0),
-                        child: new Text(programs[position].getStartsAtTime(), style: new TextStyle(color: Colors.white)), color: new Color(0xFFFF9F9F)))
-                  ],
-                  alignment: AlignmentDirectional.topEnd
-                ),
-                new ListTile(
-                  trailing: programs[position].isPlayingNow() ?
-                  new Container(
-                    child: new Text("NOW",
-                      style: new TextStyle(
-                        color: Colors.white
+            margin: new EdgeInsets.all(5.0),
+            width: screenWidth / NUM_COLUMNS,
+            child: new Card(
+                elevation: 2.0,
+                child: new Column(
+                    children: <Widget>[
+                      new Stack(
+                          children: <Widget>[
+                            new Center(child: new AspectRatio(aspectRatio: 1280 / 720, child: new Image.network(programs[position].imageUrl, fit: BoxFit.fill))),
+                            new Opacity(opacity: programs[position].isFromThePast() ? 0.0 : 1.0 , child: new Container(padding: new EdgeInsets.all(4.0),
+                                child: new Text(programs[position].getStartsAtTime(), style: new TextStyle(color: Colors.white)), color: new Color(0xFFFF9F9F)))
+                          ],
+                          alignment: AlignmentDirectional.topEnd
+                      ),
+                      new ListTile(
+                          trailing: programs[position].isPlayingNow() ?
+                          new Container(
+                              child: new Text("NOW",
+                                  style: new TextStyle(
+                                      color: Colors.white
+                                  )
+                              ),
+                              color: Colors.redAccent,
+                              padding: new EdgeInsets.all(4.0)) :
+                          null,
+                          title: new Text(programs[position].description, maxLines: 4)
                       )
-                    ),
-                    color: Colors.redAccent,
-                    padding: new EdgeInsets.all(4.0)) :
-                  null,
-                  title: new Text(programs[position].description, maxLines: 5)
+                    ]
                 )
-              ]
             )
-          )
         )
-      );
-    }else{
-      return new SizedBox(
-        height: screenWidth / NUM_COLUMNS,
-        child: new Text(programs[position].title));
-    }
+    );
   }
 
   double _getScrollOffset() {

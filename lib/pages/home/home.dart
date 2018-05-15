@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
     final bool isPortrait = AppUtils.isPortrait(context);
 
     return new ListView(
-        scrollDirection: isPortrait ? Axis.vertical : Axis.horizontal,
+        scrollDirection: /*isPortrait ? */Axis.vertical/* : Axis.horizontal*/,
         children: <Widget>[
           new HomeHeader(),
           new HomeFooter()

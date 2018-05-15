@@ -13,12 +13,12 @@ class JsonParser{
     for(var programmeAsJson in programmesArray){
       programmes.add(
         new Program(
-            DateTime.parse(programmeAsJson["broadcastDate"]),
-            programmeAsJson["duration"],
-            programmeAsJson["name"],
-            programmeAsJson["description"],
-            "http:" + programmeAsJson["logoUrl"],
-            programmeAsJson["url"])
+          new DateTime.fromMillisecondsSinceEpoch(programmeAsJson["startDate"]),
+          programmeAsJson["duration"],
+          programmeAsJson["name"],
+          programmeAsJson["description"],
+          "http:" + programmeAsJson["logoUrl"],
+          programmeAsJson["url"])
       );
     }
 

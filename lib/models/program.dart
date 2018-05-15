@@ -52,7 +52,7 @@ class Program{
     var endTime = startTime.add(new Duration(milliseconds: duration));
     var now = new DateTime.now();
     return isPlayingNow() ?
-    "ends in " + (endTime.subtract(new Duration(milliseconds: now.millisecondsSinceEpoch)).minute.toString()) + " min" :
-    "starts at " + getStartWithFormat();
+      "ends in " + (endTime.subtract(new Duration(milliseconds: now.millisecondsSinceEpoch)).minute.toString()) + " min" :
+      "starts at " + getStartWithFormat();
   }
 }
