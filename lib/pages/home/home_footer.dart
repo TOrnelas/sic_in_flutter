@@ -12,7 +12,7 @@ class HomeFooter extends StatefulWidget {
 class _HomeFooterState extends State<HomeFooter> implements Callback{
 
   static const NUM_COLUMNS = 1.5;
-  static const EPG_COLUMNS_HEIGHT = 200.0;
+  static const EPG_COLUMNS_HEIGHT = 225.0;
 
   var programs =  <Program>[];
 
@@ -80,6 +80,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   _getItem(int position){
 
     if(isPortrait){
+
       return new GestureDetector(
         onTap: () => _launchWebView(programs[position].externalUrl),
         child: new Container(
@@ -92,11 +93,24 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
                 new Stack(
                   children: <Widget>[
                     new Center(child: new AspectRatio(aspectRatio: 1280 / 720, child: new Image.network(programs[position].imageUrl, fit: BoxFit.fill))),
-                    new Opacity(opacity: programs[position].isPlayingNow() ? 1.0 :  0.0, child: new Container(child: new Text("NOW", style: new TextStyle(color: Colors.white)), color: Colors.redAccent, padding: new EdgeInsets.all(4.0)))
+                    new Opacity(opacity: programs[position].isFromThePast() ? 0.0 : 1.0 , child: new Container(padding: new EdgeInsets.all(4.0),
+                        child: new Text(programs[position].getStartsAtTime(), style: new TextStyle(color: Colors.white)), color: new Color(0xFFFF9F9F)))
                   ],
                   alignment: AlignmentDirectional.topEnd
                 ),
-                new Center(child: new Text(programs[position].description, maxLines: 5))
+                new ListTile(
+                  trailing: programs[position].isPlayingNow() ?
+                  new Container(
+                    child: new Text("NOW",
+                      style: new TextStyle(
+                        color: Colors.white
+                      )
+                    ),
+                    color: Colors.redAccent,
+                    padding: new EdgeInsets.all(4.0)) :
+                  null,
+                  title: new Text(programs[position].description, maxLines: 5)
+                )
               ]
             )
           )
