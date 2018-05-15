@@ -68,7 +68,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
     return new Column(
 
       children: <Widget>[
-        new GestureDetector(child: new Container(child: new Text("Schedule:"), padding: new EdgeInsets.only(left: 10.0, top: 5.0), width: screenWidth), onTap: () => _scrollToOnNowPostion()),
+        new GestureDetector(child: new Container(child: new Text(AppUtils.getStringForLanguage(context, "schedule") + ":"), padding: new EdgeInsets.only(left: 10.0, top: 5.0), width: screenWidth), onTap: () => _scrollToOnNowPostion()),
         new SizedBox(
           height: EPG_COLUMNS_HEIGHT,
           width: screenWidth,
@@ -100,14 +100,14 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
                           children: <Widget>[
                             new Center(child: new AspectRatio(aspectRatio: 1280 / 720, child: new Image.network(programs[position].imageUrl, fit: BoxFit.fill))),
                             new Opacity(opacity: programs[position].isFromThePast() ? 0.0 : 1.0 , child: new Container(padding: new EdgeInsets.all(4.0),
-                                child: new Text(programs[position].getStartsAtTime(), style: new TextStyle(color: Colors.white)), color: new Color(0xFFFF9F9F)))
+                                child: new Text(programs[position].getStartsAtTime(context), style: new TextStyle(color: Colors.white)), color: new Color(0xFFFF9F9F)))
                           ],
                           alignment: AlignmentDirectional.topEnd
                       ),
                       new ListTile(
                           trailing: programs[position].isPlayingNow() ?
                           new Container(
-                              child: new Text("NOW",
+                              child: new Text(AppUtils.getStringForLanguage(context, "now_label"),
                                   style: new TextStyle(
                                       color: Colors.white
                                   )

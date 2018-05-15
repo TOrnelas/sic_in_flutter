@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import '../utils/app_utils.dart';
+
 class Program{
 
   DateTime startTime;
@@ -47,12 +50,12 @@ class Program{
         && endTime.isBefore(new DateTime.now());
   }
 
-  String getStartsAtTime() {
+  String getStartsAtTime(BuildContext context) {
 
     var endTime = startTime.add(new Duration(milliseconds: duration));
     var now = new DateTime.now();
     return isPlayingNow() ?
-      "ends in " + (endTime.subtract(new Duration(milliseconds: now.millisecondsSinceEpoch)).minute.toString()) + " min" :
-      "starts at " + getStartWithFormat();
+     AppUtils.getStringForLanguage(context, "ends_in") + (endTime.subtract(new Duration(milliseconds: now.millisecondsSinceEpoch)).minute.toString()) + " min" :
+      AppUtils.getStringForLanguage(context, "starts_at") + getStartWithFormat();
   }
 }

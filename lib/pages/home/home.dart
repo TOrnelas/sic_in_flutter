@@ -19,8 +19,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    final bool isPortrait = AppUtils.isPortrait(context);
-
     return new ListView(
         scrollDirection: /*isPortrait ? */Axis.vertical/* : Axis.horizontal*/,
         children: <Widget>[
