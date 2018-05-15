@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import '../../utils/app_utils.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class HomeHeader extends StatefulWidget {
   @override

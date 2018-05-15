@@ -48,9 +48,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
 
     print(programmes);
     this.programs = programmes;
-    setState(() {
-      scrollController.animateTo(_getScrollOffset(), duration: new Duration(seconds: 1), curve: new ElasticOutCurve());
-    }); //update UI
+    _scrollToOnNowPostion();
   }
 
   @override
@@ -68,8 +66,9 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
     }
 
     return new Column(
+
       children: <Widget>[
-        new Container(child: new Text("Schedule:"), padding: new EdgeInsets.only(left: 10.0, top: 5.0), width: screenWidth),
+        new GestureDetector(child: new Container(child: new Text("Schedule:"), padding: new EdgeInsets.only(left: 10.0, top: 5.0), width: screenWidth), onTap: () => _scrollToOnNowPostion()),
         new SizedBox(
           height: EPG_COLUMNS_HEIGHT,
           width: screenWidth,
@@ -144,5 +143,11 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
 
     Scaffold.of(context).showSnackBar(new SnackBar(content: new Text("Comming soon")));
 //    flutterWebviewPlugin.launch(externalUrl);
+  }
+
+  _scrollToOnNowPostion(){
+    setState(() {
+      scrollController.animateTo(_getScrollOffset(), duration: new Duration(seconds: 1), curve: new ElasticOutCurve());
+    }); //update UI
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sic/sic_app.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main(){
-
-
+  
   runApp(new MyApp());
 }
 
@@ -20,6 +20,15 @@ class MyApp extends StatelessWidget {
       ),
       home: new App(title: 'SIC'),
       debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          // ... app-specific localization delegate[s] here
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('pt')
+      ]
     );
   }
 }
