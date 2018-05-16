@@ -66,9 +66,10 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
       children: <Widget>[
         new GestureDetector(
           child: new Container(
-              child: new Text(AppUtils.getStringForLanguage(context, "schedule") + ":"),
-              padding: new EdgeInsets.only(left: 10.0, top: 5.0),
-              width: screenWidth
+            child: new Center(child: new Text(AppUtils.getStringForLanguage(context, "schedule"), style: new TextStyle(color: Colors.white, fontSize: 17.0))),
+            padding: new EdgeInsets.all(10.0),
+            width: screenWidth,
+            color: new Color(0xBF801515),
           ),
           onTap: () => _scrollToOnNowPosition()
         ),

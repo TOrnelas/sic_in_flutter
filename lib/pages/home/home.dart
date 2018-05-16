@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_utils.dart';
 import 'home_header.dart';
 import 'home_footer.dart';
+import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -14,6 +14,8 @@ class _HomeState extends State<Home> {
   void initState() {
 
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top, SystemUiOverlay.bottom]);
   }
 
   @override

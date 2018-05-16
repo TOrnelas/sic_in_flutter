@@ -42,9 +42,12 @@ class _HomeHeaderState extends State<HomeHeader> {
       child: new Stack(
           alignment: AlignmentDirectional.bottomEnd,
           children: <Widget>[
-          new AspectRatio(
-            aspectRatio: 1280 / 720,
-            child:  new VideoPlayer(_controller)
+          new Container(
+            child: new AspectRatio(
+              aspectRatio: 1280 / 720,
+              child:  new VideoPlayer(_controller)
+            ),
+            color: Colors.black,
           ),
           new Opacity(
             opacity: areControllersVisible ? 1.0 : 0.0,
@@ -66,15 +69,16 @@ class _HomeHeaderState extends State<HomeHeader> {
 
   @override
   void dispose() {
+
     super.dispose();
     _controller.dispose();
   }
 
   _goFullScreen() {
 
-    var encodedUrl = "http://live.impresa.pt/live/sic/sic.m3u8";
-    encodedUrl = encodedUrl.replaceAll("/", "[]");
+    _controller.pause();
 
+    var encodedUrl = "http://live.impresa.pt/live/sic/sic.m3u8".replaceAll("/", "[]");
     Navigator.pushNamed(context, "/fullScreenPlayer/" + encodedUrl);
   }
 
