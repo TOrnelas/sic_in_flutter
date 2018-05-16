@@ -60,7 +60,7 @@ class _AppState extends State<App> {
   _getItem(int position){
 
     if(position == 0){ //header
-      return new DrawerHeader(child: new Center(child: new Image.network("http://i.imgur.com/ioMrqvL.png", height: 100.0)));
+      return new DrawerHeader(child: new Center(child: new Image.asset("assets/logo.png", height: 150.0)));
     }else{ //menu item
       final menuItem = items[position - 1];
       return new ListTile(
