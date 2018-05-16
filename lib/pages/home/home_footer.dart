@@ -61,7 +61,14 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
     return new Column(
 
       children: <Widget>[
-        new GestureDetector(child: new Container(child: new Text(AppUtils.getStringForLanguage(context, "schedule") + ":"), padding: new EdgeInsets.only(left: 10.0, top: 5.0), width: screenWidth), onTap: () => _scrollToOnNowPosition()),
+        new GestureDetector(
+          child: new Container(
+              child: new Text(AppUtils.getStringForLanguage(context, "schedule") + ":"),
+              padding: new EdgeInsets.only(left: 10.0, top: 5.0),
+              width: screenWidth
+          ),
+          onTap: () => _scrollToOnNowPosition()
+        ),
         new SizedBox(
           height: epgColumnsHeight,
           width: screenWidth,
@@ -71,7 +78,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
             itemBuilder: (BuildContext context, int index){
               return _getItem(index);
             },
-            scrollDirection: /*isPortrait ? */Axis.horizontal /*: *//*Axis.vertical*/
+            scrollDirection: Axis.horizontal
           )
         )
       ]
@@ -138,7 +145,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
 
   _scrollToOnNowPosition(){
     setState(() {
-      scrollController.animateTo(_getScrollOffset(), duration: new Duration(seconds: 1), curve: new ElasticOutCurve());
+      scrollController.animateTo(_getScrollOffset(), duration: new Duration(milliseconds: 800), curve: new ElasticOutCurve());
     });
   }
 }

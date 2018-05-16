@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sic/main.dart';
 
 class HomeHeader extends StatefulWidget {
   @override
@@ -70,7 +71,11 @@ class _HomeHeaderState extends State<HomeHeader> {
   }
 
   _goFullScreen() {
-    Scaffold.of(context).showSnackBar(new SnackBar(content: new Text("Soon!")));
+
+    var encodedUrl = "http://live.impresa.pt/live/sic/sic.m3u8";
+    encodedUrl = encodedUrl.replaceAll("/", "[]");
+
+    Navigator.pushNamed(context, "/fullScreenPlayer/" + encodedUrl);
   }
 
   _playPause() {

@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     return new ListView(
-        scrollDirection: /*isPortrait ? */Axis.vertical/* : Axis.horizontal*/,
+        scrollDirection: Axis.vertical,
         children: <Widget>[
           new HomeHeader(),
           new HomeFooter()
