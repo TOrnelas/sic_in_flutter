@@ -11,6 +11,10 @@ class AppUtils{
     return !isLandscape(context);
   }
 
+  static isTablet(BuildContext context){
+    return ;
+  }
+
   static getScreenWidth(BuildContext context) {
     return MediaQuery.of(context).size.width;
   }

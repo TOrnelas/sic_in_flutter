@@ -17,7 +17,6 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   var programs =  <Program>[];
 
   var screenWidth;
-  var isPortrait;
 
   var scrollController = new ScrollController();
 
@@ -53,10 +52,14 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   @override
   Widget build(BuildContext context) {
 
-    isPortrait = AppUtils.isPortrait(context);
+    var isPortrait = AppUtils.isPortrait(context);
     screenWidth = AppUtils.getScreenWidth(context);
+    var screenHeight = AppUtils.getScreenHeight(context);
+
+    var remainingHeight = screenHeight - (screenWidth / 1.7) - Scaffold.of(context).widget.appBar.preferredSize.height - 30;
+
     numColumns = isPortrait ? 1.5 : 3.5;
-    epgColumnsHeight = isPortrait ? 225.0 : 185.0;
+    epgColumnsHeight = isPortrait ? remainingHeight / 1.5 : 200.0;
 
     return new Column(
 
@@ -127,7 +130,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   double _getScrollOffset() {
 
     num currentProgramIndex = 0;
-    var celWidth = screenWidth / numColumns + 5.0;
+    var celWidth = screenWidth / numColumns + 5.0; //5.0 padding
 
     for(var i = 0; i < programs.length; i++){
       if(programs[i].isPlayingNow()){
