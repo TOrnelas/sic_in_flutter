@@ -18,8 +18,9 @@ class Repository{
 
       if(response.statusCode == 200){
         programmes = JsonParser.parseProgrammes(response.body);
+      }else{
+        callback.onError();
       }
-
     }).whenComplete((){
       callback.onSuccess(programmes);
     });
@@ -28,4 +29,5 @@ class Repository{
 
 class Callback{
   void onSuccess(List<Program> programmes){}
+  void onError(){}
 }

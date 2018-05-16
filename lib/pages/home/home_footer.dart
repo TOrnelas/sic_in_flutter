@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/program.dart';
 import '../../utils/app_utils.dart';
 import '../../internet/repository.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeFooter extends StatefulWidget {
   @override
@@ -11,8 +11,8 @@ class HomeFooter extends StatefulWidget {
 
 class _HomeFooterState extends State<HomeFooter> implements Callback{
 
-  var NUM_COLUMNS = 1.5;
-  var EPG_COLUMNS_HEIGHT = 225.0;
+  var numColumns;
+  var epgColumnsHeight;
 
   var programs =  <Program>[];
 
@@ -21,15 +21,10 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
 
   var scrollController = new ScrollController();
 
-  final flutterWebviewPlugin = new FlutterWebviewPlugin();
-
   @override
   void initState() {
 
     super.initState();
-
-    //webview
-    flutterWebviewPlugin.close();
 
     //call epg
     Repository.fetchEpgByChannelId("gen", this);
@@ -40,7 +35,6 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   void dispose() {
 
     super.dispose();
-    flutterWebviewPlugin.dispose();
   }
 
   @override
@@ -48,7 +42,12 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
 
     print(programmes);
     this.programs = programmes;
-    _scrollToOnNowPostion();
+    _scrollToOnNowPosition();
+  }
+
+  @override
+  void onError() {
+    // TODO: implement onError
   }
 
   @override
@@ -56,21 +55,15 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
 
     isPortrait = AppUtils.isPortrait(context);
     screenWidth = AppUtils.getScreenWidth(context);
-
-    if(!isPortrait){
-      NUM_COLUMNS = 3.5;
-      EPG_COLUMNS_HEIGHT = 185.0;
-    }else{
-      NUM_COLUMNS = 1.5;
-      EPG_COLUMNS_HEIGHT = 225.0;
-    }
+    numColumns = isPortrait ? 1.5 : 3.5;
+    epgColumnsHeight = isPortrait ? 225.0 : 185.0;
 
     return new Column(
 
       children: <Widget>[
-        new GestureDetector(child: new Container(child: new Text(AppUtils.getStringForLanguage(context, "schedule") + ":"), padding: new EdgeInsets.only(left: 10.0, top: 5.0), width: screenWidth), onTap: () => _scrollToOnNowPostion()),
+        new GestureDetector(child: new Container(child: new Text(AppUtils.getStringForLanguage(context, "schedule") + ":"), padding: new EdgeInsets.only(left: 10.0, top: 5.0), width: screenWidth), onTap: () => _scrollToOnNowPosition()),
         new SizedBox(
-          height: EPG_COLUMNS_HEIGHT,
+          height: epgColumnsHeight,
           width: screenWidth,
           child: new ListView.builder(
             controller: scrollController,
@@ -91,7 +84,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
         onTap: () => _launchWebView(programs[position].externalUrl),
         child: new Container(
             margin: new EdgeInsets.all(5.0),
-            width: screenWidth / NUM_COLUMNS,
+            width: screenWidth / numColumns,
             child: new Card(
                 elevation: 2.0,
                 child: new Column(
@@ -127,7 +120,7 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   double _getScrollOffset() {
 
     num currentProgramIndex = 0;
-    var celWidth = screenWidth / NUM_COLUMNS + 5.0;
+    var celWidth = screenWidth / numColumns + 5.0;
 
     for(var i = 0; i < programs.length; i++){
       if(programs[i].isPlayingNow()){
@@ -140,14 +133,12 @@ class _HomeFooterState extends State<HomeFooter> implements Callback{
   }
 
   _launchWebView(String externalUrl) {
-
-    Scaffold.of(context).showSnackBar(new SnackBar(content: new Text("Comming soon")));
-//    flutterWebviewPlugin.launch(externalUrl);
+    launch(externalUrl, forceWebView: true);
   }
 
-  _scrollToOnNowPostion(){
+  _scrollToOnNowPosition(){
     setState(() {
       scrollController.animateTo(_getScrollOffset(), duration: new Duration(seconds: 1), curve: new ElasticOutCurve());
-    }); //update UI
+    });
   }
 }
